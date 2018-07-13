@@ -1,0 +1,11 @@
+Acme\ProductBundle\Entity\Product:
+    type: entity
+    table: products
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 100

@@ -1,0 +1,16 @@
+Custom\ProductBundle\Entity\Product:
+    extended_entity: Acme\ProductBundle\Entity\Product
+    type: entity
+    fields:
+        name:
+            type: string
+            length: 150
+        price:
+            type: decimal
+            scale: 2
+        oldPrice:
+            type: decimal
+            scale: 2
+        description:
+            type: text
+            nullable: true
