@@ -123,7 +123,7 @@ class CustomProduct extends BaseProduct
 ```
 but now doctrine will think that CustomProduct is new entity with it's own DB table and this is problem, because we want that CustomProduct would be same product entity and would use same DB table. With EntityExtendBundle you can solve this problem. First of all you need to add extended entities list to your config.yml:
 ```
-pj_entity_extend:
+entity_extend:
     extended_entities:
         Acme\ProductBundle\Entity\BaseProduct: Custom\ProductBundle\Entity\CustomProduct
 ```

@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('pj_entity_extend');
+        $rootNode = $treeBuilder->root('entity_extend');
         $rootNode
             ->children()
                 ->arrayNode('extended_entities')

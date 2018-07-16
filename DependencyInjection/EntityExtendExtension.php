@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * @author Paulius Jarmalavičius <paulius.jarmalavicius@gmail.com>
  */
-class PjEntityExtendExtension extends Extension
+class EntityExtendExtension extends Extension
 {
     /**
      * {@inheritDoc}
