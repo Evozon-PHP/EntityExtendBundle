@@ -28,7 +28,7 @@ class AnnotationDriver extends DoctrineAnnotationDriver
      *
      * @return $this
      */
-    public function setEntityManager($em)
+    public function setEntityManager($em): self
     {
         $this->em = $em;
 
@@ -36,6 +36,8 @@ class AnnotationDriver extends DoctrineAnnotationDriver
     }
 
     /**
+     * Rewrite association target entities to point to extended entity classes.
+     *
      * {@inheritDoc}
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata)
@@ -54,6 +56,14 @@ class AnnotationDriver extends DoctrineAnnotationDriver
 
             // Set by parent entity.
             $metadata->setPrimaryTable($extendedEntityMetadata->table);
+        }
+
+        // Rewrite targetEntity to point to extended entity class
+        foreach ($metadata->getAssociationMappings() as $assocName => $assocMapping) {
+            if (isset($this->extendedEntities[$assocMapping['targetEntity']])) {
+                $assocMapping['targetEntity'] = $this->extendedEntities[$assocMapping['targetEntity']];
+            }
+            $metadata->associationMappings[$assocName] = $assocMapping;
         }
     }
 

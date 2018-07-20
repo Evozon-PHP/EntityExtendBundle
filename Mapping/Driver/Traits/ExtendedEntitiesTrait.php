@@ -21,7 +21,7 @@ trait ExtendedEntitiesTrait
      *
      * @return $this
      */
-    public function setExtendedEntities(array $extendedEntities)
+    public function setExtendedEntities(array $extendedEntities): self
     {
         $this->extendedEntities = $extendedEntities;
 

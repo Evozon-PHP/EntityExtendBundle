@@ -2,6 +2,7 @@
 
 namespace Pj\EntityExtendBundle\Mapping\Driver;
 
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver as DoctrineSimplifiedYamlDriver;
 use Pj\EntityExtendBundle\Mapping\Driver\Traits\ExtendedEntitiesTrait;
 
@@ -75,6 +76,26 @@ class SimplifiedYmlDriver extends DoctrineSimplifiedYamlDriver
     }
 
     /**
+     * Rewrite association target entities to point to extended entity classes.
+     *
+     * @param               $className
+     * @param ClassMetadata $metadata
+     */
+    public function loadMetadataForClass($className, ClassMetadata $metadata)
+    {
+        /* @var $metadata \Doctrine\ORM\Mapping\ClassMetadataInfo */
+        parent::loadMetadataForClass($className, $metadata);
+
+        // Rewrite targetEntity to point to extended entity class
+        foreach ($metadata->getAssociationMappings() as $assocName => $assocMapping) {
+            if (isset($this->extendedEntities[$assocMapping['targetEntity']])) {
+                $assocMapping['targetEntity'] = $this->extendedEntities[$assocMapping['targetEntity']];
+            }
+            $metadata->associationMappings[$assocName] = $assocMapping;
+        }
+    }
+
+    /**
      * Merges mappings recursively and overrides duplicated values with second mappings values.
      *
      * @param array $mapping1
@@ -82,11 +103,11 @@ class SimplifiedYmlDriver extends DoctrineSimplifiedYamlDriver
      *
      * @return array
      */
-    protected function mergeMappings(array &$mapping1, array &$mapping2)
+    protected function mergeMappings(array &$mapping1, array &$mapping2): array
     {
         $merged = $mapping1;
         foreach ($mapping2 as $key => &$value) {
-            if (is_array ($value) && isset($merged[$key]) && is_array($merged[$key])) {
+            if (\is_array($value) && isset($merged[$key]) && \is_array($merged[$key])) {
                 $merged[$key] = $this->mergeMappings($merged[$key], $value);
             } else {
                 $merged[$key] = $value;
