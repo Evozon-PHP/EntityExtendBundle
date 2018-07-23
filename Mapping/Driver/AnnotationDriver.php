@@ -82,7 +82,10 @@ class AnnotationDriver extends DoctrineAnnotationDriver
     {
         $isTransient = parent::isTransient($className);
 
-        if (!$isTransient && isset($this->extendedEntities[$className])) {
+        if (!$isTransient
+            && isset($this->extendedEntities[$className])
+            && !\in_array($className, $this->nonTransient, true))
+        {
             $isTransient = true;
         }
 

@@ -26,5 +26,6 @@ class EntityExtendExtension extends Extension
         $loader->load('services.yml');
 
         $container->setParameter('extended_entities', $config['extended_entities']);
+        $container->setParameter('non_transient', $config['non_transient']);
     }
 }

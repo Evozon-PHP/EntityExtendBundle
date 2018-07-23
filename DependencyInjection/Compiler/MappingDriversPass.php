@@ -43,6 +43,7 @@ class MappingDriversPass implements CompilerPassInterface
 
             $definition = $container->getDefinition($serviceName);
             $definition->addMethodCall('setExtendedEntities', [$container->getParameter('extended_entities')]);
+            $definition->addMethodCall('setNonTransient', [$container->getParameter('non_transient')]);
             $definition->addMethodCall('setEntityManager', [$em]);
         }
     }
@@ -63,6 +64,7 @@ class MappingDriversPass implements CompilerPassInterface
 
             $definition = $container->getDefinition($serviceName);
             $definition->addMethodCall('setExtendedEntities', [$container->getParameter('extended_entities')]);
+            $definition->addMethodCall('setNonTransient', [$container->getParameter('non_transient')]);
         }
     }
 
@@ -82,6 +84,7 @@ class MappingDriversPass implements CompilerPassInterface
 
             $definition = $container->getDefinition($serviceName);
             $definition->addMethodCall('setExtendedEntities', [$container->getParameter('extended_entities')]);
+            $definition->addMethodCall('setNonTransient', [$container->getParameter('non_transient')]);
         }
     }
 }

@@ -22,8 +22,14 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('extended_entities')
-                ->useAttributeAsKey('name')
-                ->prototype('scalar')
+                    ->useAttributeAsKey('name')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('non_transient')
+                    ->treatNullLike([])
+                    ->prototype('scalar')->end()
+                    ->defaultValue([])
+                ->end()
             ->end();
 
         return $treeBuilder;
