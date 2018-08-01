@@ -7,11 +7,16 @@ use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver as DoctrineSimplifiedYamlDr
 use Pj\EntityExtendBundle\Mapping\Driver\Traits\ExtendedEntitiesTrait;
 
 /**
- * Class SimplifiedYmlDriver.
+ * Class SimplifiedYamlDriver.
+ *
+ * NOTE: If used along with Gedmo Doctrine Extensions, class name has to be `Yaml`, otherwise
+ * Gedmo's `ExtensionMetadataFactory` will fall back to Annotation driver. Brilliant!
+ *
+ * Check out the Gedmo driver loader here: https://github.com/Atlantic18/DoctrineExtensions/blob/v2.4.x/lib/Gedmo/Mapping/ExtensionMetadataFactory.php#L145-L159
  *
  * @author Paulius Jarmalavičius <paulius.jarmalavicius@gmail.com>
  */
-class SimplifiedYmlDriver extends DoctrineSimplifiedYamlDriver
+class SimplifiedYamlDriver extends DoctrineSimplifiedYamlDriver
 {
     use ExtendedEntitiesTrait;
 
