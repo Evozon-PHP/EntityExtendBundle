@@ -43,15 +43,11 @@ class SimplifiedXmlDriver extends DoctrineSimplifiedXmlDriver
     public function isTransient($className)
     {
         $isTransient = parent::isTransient($className);
-
-        if (!$isTransient
-            && isset($this->extendedEntities[$className])
-            && !\in_array($className, $this->nonTransient, true))
-        {
-            $isTransient = true;
+        if (true === $isTransient) {
+            return true;
         }
 
-        return $isTransient;
+        return $this->isExtendedEntity($className);
     }
 
     /**
@@ -95,5 +91,27 @@ class SimplifiedXmlDriver extends DoctrineSimplifiedXmlDriver
             }
             $metadata->associationMappings[$assocName] = $assocMapping;
         }
+    }
+
+    /**
+     * Merges mappings recursively and overrides duplicated values with second mappings values.
+     *
+     * @param array $mapping1
+     * @param array $mapping2
+     *
+     * @return array
+     */
+    protected function mergeMappings(array &$mapping1, array &$mapping2): array
+    {
+        $merged = $mapping1;
+        foreach ($mapping2 as $key => &$value) {
+            if (\is_array($value) && isset($merged[$key]) && \is_array($merged[$key])) {
+                $merged[$key] = $this->mergeMappings($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
     }
 }

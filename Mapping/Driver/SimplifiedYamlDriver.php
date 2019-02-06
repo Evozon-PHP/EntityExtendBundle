@@ -49,15 +49,11 @@ class SimplifiedYamlDriver extends DoctrineSimplifiedYamlDriver
     public function isTransient($className)
     {
         $isTransient = parent::isTransient($className);
-
-        if (!$isTransient
-            && isset($this->extendedEntities[$className])
-            && !\in_array($className, $this->nonTransient, true))
-        {
-            $isTransient = true;
+        if (true === $isTransient) {
+            return true;
         }
 
-        return $isTransient;
+        return $this->isExtendedEntity($className);
     }
 
     /**

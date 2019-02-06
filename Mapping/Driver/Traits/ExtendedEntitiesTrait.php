@@ -47,4 +47,29 @@ trait ExtendedEntitiesTrait
 
         return $this;
     }
+
+    /**
+     * @param string $className
+     *
+     * @return bool
+     */
+    protected function isExtendedEntity(string $className): bool
+    {
+        return isset($this->extendedEntities[$className])
+            && !\in_array($className, $this->nonTransient, true);
+    }
+
+    /**
+     * @param string $className
+     *
+     * @return string
+     */
+    protected function getFinalClass(string $className): string
+    {
+        if (!$this->isExtendedEntity($className)) {
+            return $className;
+        }
+
+        return $this->extendedEntities[$className];
+    }
 }
