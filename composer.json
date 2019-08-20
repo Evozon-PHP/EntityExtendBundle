@@ -2,7 +2,9 @@
   "name": "evozon-php/entity-extend-bundle",
   "type": "symfony-bundle",
   "description": "Slight variation of the original pjarmalavicius/PjEntityExtendBundle - Easy doctrine entities extending",
-  "keywords": ["doctrine extend mapping"],
+  "keywords": [
+    "doctrine extend mapping"
+  ],
   "homepage": "http://evozon.com",
   "license": "proprietary",
   "authors": [
@@ -18,12 +20,9 @@
   ],
   "require": {
     "php": ">=7.1",
-    "symfony/symfony": "^3.0 || ^4.0",
+    "symfony/symfony": "^4.0",
     "doctrine/orm": ">=2.2.3",
     "doctrine/doctrine-bundle": "*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^6.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

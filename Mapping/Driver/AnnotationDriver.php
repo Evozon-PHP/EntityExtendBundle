@@ -2,8 +2,9 @@
 
 namespace Pj\EntityExtendBundle\Mapping\Driver;
 
+use Doctrine\Bundle\DoctrineBundle\Registry as DoctrineRegistry;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver as DoctrineAnnotationDriver;
 use Pj\EntityExtendBundle\Mapping\Driver\Traits\ExtendedEntitiesTrait;
@@ -19,18 +20,18 @@ class AnnotationDriver extends DoctrineAnnotationDriver
     use ExtendedEntitiesTrait;
 
     /**
-     * @var EntityManager
+     * @var DoctrineRegistry
      */
-    protected $em;
+    protected $registry;
 
     /**
-     * @param EntityManager $em
+     * @param DoctrineRegistry $registry
      *
      * @return $this
      */
-    public function setEntityManager($em): self
+    public function setRegistry(DoctrineRegistry $registry): self
     {
-        $this->em = $em;
+        $this->registry = $registry;
 
         return $this;
     }
@@ -50,7 +51,7 @@ class AnnotationDriver extends DoctrineAnnotationDriver
             /** @var ExtendedEntity $annotation */
             $annotation = $classAnnotations['Pj\EntityExtendBundle\Mapping\ExtendedEntity'];
             $extendedEntityClass = $annotation->className;
-            $cmf = $this->em->getMetadataFactory();
+            $cmf = $this->getManager()->getMetadataFactory();
             /** @var \Doctrine\ORM\Mapping\ClassMetadataInfo $extendedEntityMetadata */
             $extendedEntityMetadata = $cmf->getMetadataFor($extendedEntityClass);
 
@@ -127,5 +128,13 @@ class AnnotationDriver extends DoctrineAnnotationDriver
         }
 
         return $classAnnotations;
+    }
+
+    /**
+     * @return ObjectManager
+     */
+    private function getManager(): ObjectManager
+    {
+        return $this->registry->getManager();
     }
 }

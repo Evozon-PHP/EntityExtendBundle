@@ -21,7 +21,7 @@ class MappingDriversPass implements CompilerPassInterface
      *
      * @param ContainerBuilder $container
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $this->configureAnnotationDriver($container);
         $this->configureYamlDriver($container);
@@ -33,7 +33,7 @@ class MappingDriversPass implements CompilerPassInterface
      *
      * @param ContainerBuilder $container
      */
-    protected function configureAnnotationDriver(ContainerBuilder $container)
+    protected function configureAnnotationDriver(ContainerBuilder $container): void
     {
         $serviceName = 'doctrine.orm.default_annotation_metadata_driver';
         if ($container->hasDefinition($serviceName)) {
@@ -42,7 +42,7 @@ class MappingDriversPass implements CompilerPassInterface
             $definition = $container->getDefinition($serviceName);
             $definition->addMethodCall('setExtendedEntities', [$container->getParameter('extended_entities')]);
             $definition->addMethodCall('setNonTransient', [$container->getParameter('non_transient')]);
-            $definition->addMethodCall('setEntityManager', [new Reference('doctrine.orm.default_entity_manager')]);
+            $definition->addMethodCall('setRegistry', [new Reference('doctrine')]);
         }
     }
 
@@ -51,7 +51,7 @@ class MappingDriversPass implements CompilerPassInterface
      *
      * @param ContainerBuilder $container
      */
-    protected function configureYamlDriver(ContainerBuilder $container)
+    protected function configureYamlDriver(ContainerBuilder $container): void
     {
         $serviceName = 'doctrine.orm.default_yml_metadata_driver';
         if ($container->hasDefinition($serviceName)) {
@@ -68,7 +68,7 @@ class MappingDriversPass implements CompilerPassInterface
      *
      * @param ContainerBuilder $container
      */
-    protected function configureXmlDriver(ContainerBuilder $container)
+    protected function configureXmlDriver(ContainerBuilder $container): void
     {
         $serviceName = 'doctrine.orm.default_xml_metadata_driver';
         if ($container->hasDefinition($serviceName)) {
